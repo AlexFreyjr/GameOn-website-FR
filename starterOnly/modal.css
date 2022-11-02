@@ -203,6 +203,10 @@ input {
   font-size: 20px;
   height: 48px;
 }
+.error-first, .error-last, .error-mail, .error-tournament, .error-birth {
+  font-size: 12px;
+  color: rgb(243, 64, 64);
+}
 .formData[data-error]::after {
   content: attr(data-error);
   font-size: 0.4em;
