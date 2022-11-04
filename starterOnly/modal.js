@@ -17,12 +17,25 @@ const formSurname = document.getElementById("last");
 const formMail = document.getElementById("email");
 const formBirth = document.getElementById("birthdate");
 const formTournament = document.getElementById("quantity");
-const formCheck = document.querySelectorAll(".checkbox-input");;
-let nameIsValid = 0;
+const formCheck = document.querySelectorAll(".checkbox-input");
+const formCondition = document.getElementById("checkbox1");
+
+//Error Messages
+const nameErrorMsg = "Veuillez entrer 2 caractères ou plus pour le champ du nom.";
+const mailErrorMsg = "Veuillez entrer une adresse mail valide.";
+const dateErrorMsg = "Vous devez entrer votre date de naissance.";
+const checkErrorMsg = "Vous devez choisir une option.";
+const conditionErrorMsg = "Vous devez vérifier que vous acceptez les termes et conditions.";
+const tournamentErrorMsg = "Merci d'entrer un chiffre";
+
+//Variables need to be true to validate form
+let fnameIsValid = false;
+let lnameIsValid = false;
 let mailIsValid = false;
 let dateIsValid = false;
 let tournamentIsValid = false;
-let checkIsValid = 0;
+let checkIsValid = false;
+let conditionIsValid = true;
 
 // launch modal event
 modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
@@ -38,87 +51,108 @@ function launchModal() {
 function closeModal() {
   modalbg.style.display = "none";
 }
-
+// Error message
+function formError (text, el, visibility) {
+  document.querySelector(`.${el}`).style.visibility = visibility;
+  document.querySelector(`.${el}`).innerText = text;
+}
 //name validation
-formName.addEventListener('change', fnameVerification);
-function fnameVerification (e){
+formName.addEventListener('input', function (e) {
   if(e.target.value.length < 2 ) { 
-    document.querySelector(".error-first").innerHTML = "Veuillez entrer 2 caractères ou plus pour le champ du nom.";
+    formError(nameErrorMsg, "error-first", "visible");
   }
   else{
-    document.querySelector(".error-first").style.visibility = "hidden";
-    nameIsValid += 1;
+    formError(nameErrorMsg, "error-first", "hidden");
+    fnameIsValid = true;
   }
-}
-formSurname.addEventListener('change', lnameVerification);
-function lnameVerification (e){
+});
+formSurname.addEventListener('input', function (e){
   if(e.target.value.length < 2 ) { 
-    document.querySelector(".error-last").innerHTML = "Veuillez entrer 2 caractères ou plus pour le champ du nom.";
+    formError(nameErrorMsg, "error-last", "visible")
   }
   else{
-    document.querySelector(".error-last").style.visibility = "hidden";
-    nameIsValid += 1;
+    formError(nameErrorMsg, "error-last", "hidden");
+    lnameIsValid = true;
   }
-}
+});
+
 //mail validation
-formMail.addEventListener('change', mailVerification);
-function mailVerification (e){
+formMail.addEventListener('change', function (e){
   let mailRegExp = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/gi;
   if (mailRegExp.test(e.target.value) == false)
   {
-    document.querySelector(".error-mail").innerHTML = "Veuillez entrer une adresse mail valide.";
+    formError(mailErrorMsg, "error-mail", "visible");
   }
   else {
-    document.querySelector(".error-mail").style.visibility = "hidden";
+    formError(mailErrorMsg, "error-mail", "hidden");
     mailIsValid = true;
   }
-}
-formBirth.addEventListener('change', birthVerification);
-function birthVerification (e){
-  let now = new Date();
-  let date = e.target.value;
-  //let age = now.getFullYear() - date.getFullYear();
-  if (date == null || date > now){
-    document.querySelector(".error-birth").innerHTML = "Vous devez entrer votre date de naissance.";
+});
+
+//birth date validation
+formBirth.addEventListener('change', function (e){
+let now = new Date();
+let date = e.target.value;
+let nowParse = Date.parse(now);
+let dateParse = Date.parse(e.target.value);
+if (date == null || dateParse > nowParse){
+    formError(dateErrorMsg, "error-birth", "visible");
   }
   else {
-    document.querySelector(".error-birth").style.visibility = "hidden";
+    formError(dateErrorMsg, "error-birth", "hidden");
     dateIsValid = true;
   }
-}
+});
 
-//participation validation
-formTournament.addEventListener('change', tournamentValidation);
-function tournamentValidation (e){
-  console.log(e);
-  if(e.target.value == null || e.target.value == " " ) { 
-    document.querySelector(".error-tournament").innerHTML = "Vous devez choisir une option.";
+//tournament validation
+formTournament.addEventListener('input', function(e) {
+  if(e.target.value == null || e.target.value == "") {
+    formError(tournamentErrorMsg, "error-condition", "visible");
   }
   else {
+    formError(tournamentErrorMsg, "error-condition", "hidden");
     tournamentIsValid = true;
-    document.querySelector(".error-tournament").style.dvisibility = "hidden";
   }
-}
+});
 
-//check radio 
-//for i in formCheck {
-//  if(i.isChecked) {
-//    if(i == 0) { checkIsValid += 1;}
-//    else { document.querySelector(".error-checkbox").innerHTML = "Vous devez choisir une seule option.";}
-//}
-// else { document.querySelector(".error-checkbox").innerHTML = "Vous devez choisir une seule option.";}
-//}
+//checkbox validation
+ for (let i = 0; i < formCheck.length; i++) {
+    formCheck[i].addEventListener("change", () =>{ 
+      if (formCheck[i].checked == true){
+        checkIsValid = true;
+        formError(dateErrorMsg, "error-birth", "hidden");
+      } else {
+        formError (checkErrorMsg, "error-check", "visible");
+      }});
+    }
 
+//conditions validation
+formCondition.addEventListener('change', function (e) {
+  if(!e.checked) { 
+    formError(nameErrorMsg, "error-condition", "visible");
+    conditionIsValid = false;
+  }
+  else{
+    formError(nameErrorMsg, "error-condition", "hidden");
+  }
+});
 
 //form submitting
 modalbg.addEventListener("submit", validate); 
 function validate(e) {
-  e.preventDefault();
-  if (nameIsValid == 2 && mailIsValid == true && dateIsValid == true && tournamentIsValid == true){
-    alert("Merci ! Votre réservation a été reçue.");
+  // Valid Form
+  if (fnameIsValid && lnameIsValid && mailIsValid && dateIsValid && tournamentIsValid && checkIsValid){
+   alert("Merci ! Votre réservation a été reçue.");
   }
+  // Form Error after submit
   else{
-    alert("Merci de remplir correctement le formulaire");
+    e.preventDefault();
+    if (!fnameIsValid) {formError (nameErrorMsg, "error-first", "visible")};
+    if (!lnameIsValid) {formError (nameErrorMsg, "error-last", "visible")};
+    if (!mailIsValid) {formError (mailErrorMsg, "error-mail", "visible")};
+    if (!dateIsValid) {formError (dateErrorMsg, "error-birth", "visible")};
+    if (!checkIsValid) {formError (checkErrorMsg, "error-check", "visible")};
+    if (!tournamentIsValid) {formError(tournamentErrorMsg, "error-condition", "visible")};
   }
 };
 
