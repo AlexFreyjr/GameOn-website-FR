@@ -60,6 +60,9 @@ function formError(text, el, visibility) {
 function redBorder(el) {
   el.style.border = "1px solid #FF4E60";
 }
+function noBorder(el) {
+  el.style.border = "none";
+}
 
 //ERROR HANDLING (is the same for every case) :
 //if the test is KO add a red border and error message.
@@ -77,6 +80,7 @@ formName.addEventListener("input", function (e) {
   } else {
     //VALIDATION
     formError(nameErrorMsg, "error-first", "hidden");
+    noBorder(formName);
     fnameIsValid = true;
   }
 });
@@ -87,6 +91,7 @@ formSurname.addEventListener("input", function (e) {
     formError(nameErrorMsg, "error-last", "visible");
   } else {
     formError(nameErrorMsg, "error-last", "hidden");
+    noBorder(formSurname);
     lnameIsValid = true;
   }
 });
@@ -101,6 +106,7 @@ formMail.addEventListener("change", function (e) {
     formError(mailErrorMsg, "error-mail", "visible");
   } else {
     formError(mailErrorMsg, "error-mail", "hidden");
+    noBorder(formMail);
     mailIsValid = true;
   }
 });
@@ -119,6 +125,7 @@ formBirth.addEventListener("change", function (e) {
     formError(dateErrorMsg, "error-birth", "visible");
   } else {
     formError(dateErrorMsg, "error-birth", "hidden");
+    noBorder(formBirth);
     dateIsValid = true;
   }
 });
@@ -131,6 +138,7 @@ formTournament.addEventListener("input", function (e) {
     formError(tournamentErrorMsg, "error-condition", "visible");
   } else {
     formError(tournamentErrorMsg, "error-condition", "hidden");
+    noBorder(formTournament);
     tournamentIsValid = true;
   }
 });
