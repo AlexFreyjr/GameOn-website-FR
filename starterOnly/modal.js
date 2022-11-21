@@ -17,7 +17,7 @@ const formSurname = document.getElementById("last");
 const formMail = document.getElementById("email");
 const formBirth = document.getElementById("birthdate");
 const formTournament = document.getElementById("quantity");
-const formCheck = document.querySelectorAll(".checkbox-input");
+const formCheck = document.querySelectorAll('input[name="location"]');
 const formCondition = document.getElementById("checkbox1");
 const validModal = document.querySelector(".valid-modal");
 const closeValidModal = document.querySelector(".btn-close");
@@ -135,14 +135,13 @@ formTournament.addEventListener("input", function (e) {
   //check if the input is empty
   if (e.target.value == null || e.target.value == "") {
     redBorder(formTournament);
-    formError(tournamentErrorMsg, "error-condition", "visible");
+    formError(tournamentErrorMsg, "error-tournament", "visible");
   } else {
-    formError(tournamentErrorMsg, "error-condition", "hidden");
+    formError(tournamentErrorMsg, "error-tournament", "hidden");
     noBorder(formTournament);
     tournamentIsValid = true;
   }
 });
-
 //checkbox validation
 //loop to every checkbox
 for (let i = 0; i < formCheck.length; i++) {
@@ -151,7 +150,7 @@ for (let i = 0; i < formCheck.length; i++) {
     //if any is checked than pass true to global variables
     if (formCheck[i].checked == true) {
       checkIsValid = true;
-      formError(dateErrorMsg, "error-check", "hidden");
+      formError(checkErrorMsg, "error-check", "hidden");
     } else {
       formError(checkErrorMsg, "error-check", "visible");
     }
@@ -159,13 +158,14 @@ for (let i = 0; i < formCheck.length; i++) {
 }
 
 //conditions validation
-formCondition.addEventListener("change", function (e) {
+formCondition.addEventListener("input", function (e) {
   //Since the box is already check, it listen to any difference the pass false to the global variable.
   if (!e.checked) {
-    formError(nameErrorMsg, "error-condition", "visible");
+    formError(conditionErrorMsg, "error-condition", "visible");
     conditionIsValid = false;
-  } else {
-    formError(nameErrorMsg, "error-condition", "hidden");
+  } 
+  else {
+    formError(conditionErrorMsg, "error-condition", "hidden");
   }
 });
 
@@ -183,6 +183,7 @@ function validate(e) {
   ) {
     e.preventDefault();
     //launch the validation modal
+    closeModal();
     validModal.style.display = "block";
     closeValidModal.addEventListener("click", function (e){
       validModal.style.display = "none";
