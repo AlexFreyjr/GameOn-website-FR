@@ -99,9 +99,8 @@ formSurname.addEventListener("input", function (e) {
 //Mail validation 
 formMail.addEventListener("change", function (e) {
   //check if it's a valid mail format but only after the user select another input
-  let mailRegExp =
-    /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/gi;
-  if (mailRegExp.test(e.target.value) == false) {
+  let mailRegExp = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+  if (mailRegExp.test(e.target.value) === false) {
     redBorder(formMail);
     formError(mailErrorMsg, "error-mail", "visible");
   } else {
@@ -158,14 +157,15 @@ for (let i = 0; i < formCheck.length; i++) {
 }
 
 //conditions validation
-formCondition.addEventListener("input", function (e) {
+formCondition.addEventListener("change", function (e) {
   //Since the box is already check, it listen to any difference the pass false to the global variable.
-  if (!e.checked) {
+  if (!e.currentTarget.checked) {
     formError(conditionErrorMsg, "error-condition", "visible");
     conditionIsValid = false;
   } 
   else {
     formError(conditionErrorMsg, "error-condition", "hidden");
+    conditionIsValid = true;
   }
 });
 
@@ -179,7 +179,8 @@ function validate(e) {
     mailIsValid &&
     dateIsValid &&
     tournamentIsValid &&
-    checkIsValid
+    checkIsValid &&
+    conditionIsValid
   ) {
     e.preventDefault();
     //launch the validation modal
@@ -219,6 +220,9 @@ function validate(e) {
     }
     if (!checkIsValid) {
       formError(checkErrorMsg, "error-check", "visible");
+    }    
+    if (!conditionIsValid) {
+      formError(conditionErrorMsg, "error-condition", "visible");
     }
   }
 }
