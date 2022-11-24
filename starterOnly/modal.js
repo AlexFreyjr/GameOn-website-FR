@@ -77,6 +77,7 @@ formName.addEventListener("input", function (e) {
     //ERROR HANDLING
     redBorder(formName);
     formError(nameErrorMsg, "error-first", "visible");
+    fnameIsValid = false;
   } else {
     //VALIDATION
     formError(nameErrorMsg, "error-first", "hidden");
@@ -89,6 +90,7 @@ formSurname.addEventListener("input", function (e) {
   if (e.target.value.length < 2) {
     redBorder(formSurname);
     formError(nameErrorMsg, "error-last", "visible");
+    lnameIsValid = false;
   } else {
     formError(nameErrorMsg, "error-last", "hidden");
     noBorder(formSurname);
@@ -103,6 +105,7 @@ formMail.addEventListener("change", function (e) {
   if (mailRegExp.test(e.target.value) === false) {
     redBorder(formMail);
     formError(mailErrorMsg, "error-mail", "visible");
+    mailIsValid = false;
   } else {
     formError(mailErrorMsg, "error-mail", "hidden");
     noBorder(formMail);
@@ -122,6 +125,7 @@ formBirth.addEventListener("change", function (e) {
   if (date == null || dateParse > nowParse) {
     redBorder(formBirth);
     formError(dateErrorMsg, "error-birth", "visible");
+    dateIsValid = false;
   } else {
     formError(dateErrorMsg, "error-birth", "hidden");
     noBorder(formBirth);
@@ -135,6 +139,7 @@ formTournament.addEventListener("input", function (e) {
   if (e.target.value == null || e.target.value == "") {
     redBorder(formTournament);
     formError(tournamentErrorMsg, "error-tournament", "visible");
+    tournamentIsValid = false;
   } else {
     formError(tournamentErrorMsg, "error-tournament", "hidden");
     noBorder(formTournament);
@@ -151,6 +156,7 @@ for (let i = 0; i < formCheck.length; i++) {
       checkIsValid = true;
       formError(checkErrorMsg, "error-check", "hidden");
     } else {
+      checkIsValid = false;
       formError(checkErrorMsg, "error-check", "visible");
     }
   });
