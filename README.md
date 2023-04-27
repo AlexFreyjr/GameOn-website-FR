@@ -1,5 +1,15 @@
-# Projet GameOn
-1. Forkez ce repo ;
-2. Il est conseillé d'utiliser VisualStudio Code et vous pouvez utiliser Docker, mais ce n'est pas obligatoire ;
-3. Il n'y a aucune dépendance ;
-4. Vous ne devez utiliser que du CSS personnalisé et du JavaScript pur, sans jQuery, Bootstrap ou autre librairie.
+## Project GameOn
+
+#Introduction 
+
+Project n°4 on my Front-end Dev curiculum with OpenClassrooms
+
+This project goal was to familirize myself with Javascript.
+
+#Prompt of the project
+
+As a new Fron-end dev my work was :
+  - Fork the repo
+  - HTML/CSS Integration
+  - Debugging the GitHub issues
+  - Manual testing
